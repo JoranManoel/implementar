@@ -1,0 +1,7 @@
+<?php
+session_start(); if(!isset($_SESSION["usuario_id"])){header("Location: login.php");exit;} require_once "config/conexao.php";
+$total=$abertos=$atendimento=$resolvidos=0;
+$r=$conn->query("SELECT COUNT(*) total FROM chamados"); if($r)$total=$r->fetch_assoc()["total"];
+$r=$conn->query("SELECT status,COUNT(*) quantidade FROM chamados GROUP BY status"); if($r) while($x=$r->fetch_assoc()){if($x["status"]==='Aberto')$abertos=$x["quantidade"];if($x["status"]==='Em atendimento')$atendimento=$x["quantidade"];if($x["status"]==='Resolvido')$resolvidos=$x["quantidade"];}
+?>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HelpTech - Dashboard</title><link rel="stylesheet" href="css/style.css"></head><body><header class="topbar"><strong>HelpTech</strong><div><?=htmlspecialchars($_SESSION["usuario_nome"])?> | <a href="logout.php">Sair</a></div></header><main class="container"><h1>Dashboard</h1><p>Bem-vindo ao sistema.</p><div class="cards"><div class="card"><span>Total</span><strong><?=$total?></strong></div><div class="card"><span>Abertos</span><strong><?=$abertos?></strong></div><div class="card"><span>Em atendimento</span><strong><?=$atendimento?></strong></div><div class="card"><span>Resolvidos</span><strong><?=$resolvidos?></strong></div></div><div class="actions"><a class="button" href="chamados/listar.php">Gerenciar chamados</a> <a class="button secondary" href="usuarios/listar.php">Usuários</a></div></main></body></html>
