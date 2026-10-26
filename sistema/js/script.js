@@ -1,1 +1,1 @@
-function confirmarExclusao(){return confirm('Deseja realmente excluir este chamado?');}
+function confirmarExclusao() { return confirm('Deseja realmente excluir este chamado?'); }
